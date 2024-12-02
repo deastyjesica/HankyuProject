@@ -1,0 +1,24 @@
+{
+  "name": "e2e_hankyu_vip",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test:dev": "mocha --no-timeouts --reporter mochawesome --reporter-options reportDir=C:/Users/deast/Work/Upbond/upbond_DJ/e2e_hankyu_vip/report_result/dev --overwrite=true",
+    "test:stg": "mocha --no-timeouts --reporter mochawesome --reporter-options reportDir=C:/Users/deast/Work/Upbond/upbond_DJ/e2e_hankyu_vip/report_result/stg --overwrite=true",
+    "test:prod": "mocha --no-timeouts --reporter mochawesome --reporter-options reportDir=C:/Users/deast/Work/Upbond/upbond_DJ/e2e_hankyu_vip/report_result/prod --overwrite=true"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "assert": "^2.1.0",
+    "chai": "^5.1.2",
+    "chromedriver": "^130.0.2",
+    "dotenv": "^16.4.5",
+    "geckodriver": "^5.0.0",
+    "mocha": "^10.8.2",
+    "mochawesome": "^7.1.3",
+    "selenium-webdriver": "^4.26.0"
+  }
+}

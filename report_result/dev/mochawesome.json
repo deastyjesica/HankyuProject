@@ -1,0 +1,183 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 2,
+    "pending": 0,
+    "failures": 1,
+    "start": "2024-11-28T07:57:30.790Z",
+    "end": "2024-11-28T08:00:53.347Z",
+    "duration": 202557,
+    "testsRegistered": 3,
+    "passPercent": 66.66666666666666,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "414c2876-cdcb-4cf6-ac54-0cdc15eca21b",
+      "title": "",
+      "fullFile": "C:\\Users\\deast\\Work\\Upbond\\upbond_DJ\\e2e_hankyu_vip\\test\\dev-env\\coupon_existing_user.js",
+      "file": "\\coupon_existing_user.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "f5b068e8-077b-4b2b-944d-3c4363fc9a93",
+          "title": "E2E UPBOND HANKYU COUPON DEV",
+          "fullFile": "C:\\Users\\deast\\Work\\Upbond\\upbond_DJ\\e2e_hankyu_vip\\test\\dev-env\\coupon_existing_user.js",
+          "file": "\\coupon_existing_user.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"E2E UPBOND HANKYU COUPON DEV\"",
+              "fullTitle": "E2E UPBOND HANKYU COUPON DEV \"before all\" hook in \"E2E UPBOND HANKYU COUPON DEV\"",
+              "timedOut": false,
+              "duration": 5986,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await createDriver();",
+              "err": {},
+              "uuid": "9120d1c7-fd4e-4a6c-a152-df301056f7d4",
+              "parentUUID": "f5b068e8-077b-4b2b-944d-3c4363fc9a93",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"E2E UPBOND HANKYU COUPON DEV\"",
+              "fullTitle": "E2E UPBOND HANKYU COUPON DEV \"after all\" hook in \"E2E UPBOND HANKYU COUPON DEV\"",
+              "timedOut": false,
+              "duration": 50,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.quit();",
+              "err": {},
+              "uuid": "ad5ac058-dcdf-4b0b-9c77-3b63d6a794e7",
+              "parentUUID": "f5b068e8-077b-4b2b-944d-3c4363fc9a93",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "01. Login Existing User & Check Dashboard",
+              "fullTitle": "E2E UPBOND HANKYU COUPON DEV 01. Login Existing User & Check Dashboard",
+              "timedOut": false,
+              "duration": 101065,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const chai = await import('chai');\nchai.should();\nlet driver = await createDriver();\n    \n// try {\n    await driver.get('https://dev.taxfree-coupon.hankyu-hanshin-dept.co.jp/');\n    await driver.manage().window().maximize();\n    \n    //await driver.wait(until.elementLocated(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"Login with Email\")]')), 5000);\n    await driver.wait(until.elementLocated(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')), 5000);\n    await driver.findElement(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')).click();\n    \n    // Login with OTP Email\n    await driver.wait(until.elementLocated(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')), 10000);\n    await driver.wait(until.elementLocated(By.xpath('//input[@type=\"text\" and @id=\"otp-email\"]')), 5000);\n    await driver.findElement(By.xpath('//input[@type=\"text\" and @id=\"otp-email\"]')).sendKeys(credentials.USROTP_COUPON_EXISTING);\n    await driver.findElement(By.xpath('//button[@type=\"submit\" and @id=\"otp-button\"]')).click();\n    await driver.sleep(3000)\n    // Switch new tab to get OTP code\n    let current_window = await driver.getWindowHandle();\n    await driver.switchTo().newWindow('tab');\n    let windows = await driver.getAllWindowHandles();\n    let tab;\n    windows.forEach(async handle =>{\n        if (handle!=current_window){\n            tab = handle;\n        }\n    });\n    await driver.get('https://mail.google.com/');\n    await driver.manage().window().maximize();\n    await driver.findElement(By.xpath('//input[@type=\"email\" and @name=\"identifier\"]')).sendKeys(credentials.USRGOOGLE);\n    await driver.sleep(1500);\n    await driver.findElement(By.xpath('//span[text()=\"Next\"]')).click();\n    await driver.sleep(5000);\n    await driver.wait(until.elementLocated(By.xpath('//input[@type=\"password\" and @name=\"Passwd\"]')), 1000);\n    await driver.findElement(By.xpath('//input[@type=\"password\" and @name=\"Passwd\"]')).sendKeys(credentials.PWDOTP);\n    await driver.sleep(1000);\n    await driver.findElement(By.xpath('//span[text()=\"Next\"]')).click();\n    await driver.sleep(5000);\n    await driver.wait(until.elementLocated(By.xpath('(//a[@title=\"Gmail\" and @href=\"#inbox\"])[2]')), 5000);\n    let topEmail = await driver.wait(until.elementLocated(By.css('tr.zA.zE')), 3000);\n    await topEmail.click();\n    let otpElement = await driver.findElement(By.xpath('(//p)[3]'));\n    let otpCode = await otpElement.getText();\n    //Back to login 3.0 page\n    await driver.getAllWindowHandles();\n    await driver.switchTo().window(current_window);\n    for (let i = 0; i < otpCode.length; i++) {\n        let inputElement = await driver.wait(until.elementLocated(By.id(`handleInput${i + 1}`)), 3000);\n        await inputElement.sendKeys(otpCode[i]);\n        await driver.sleep(1000);\n    };\n    await driver.sleep(1000);\n    await driver.findElement(By.xpath('//button[@type=\"submit\"]')).click();\n    await driver.sleep(20000);\n    // dashboard Hankyu Coupon\n    await driver.wait(until.elementLocated(By.xpath('//img[@loading=\"lazy\" and contains(@srcset, \"coupon-sm-expired\")]')), 8000);\n    await driver.sleep(1000);\n    await driver.quit();\n// } catch (error) {\n//     console.error('Error occurred during test execution:', error);\n//     throw new Error('Failed to login existing user with OTP');\n// }",
+              "err": {},
+              "uuid": "628bd762-e0d7-45f7-a1c2-6443a2999151",
+              "parentUUID": "f5b068e8-077b-4b2b-944d-3c4363fc9a93",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "02. Login coupon cannot contain VIP members",
+              "fullTitle": "E2E UPBOND HANKYU COUPON DEV 02. Login coupon cannot contain VIP members",
+              "timedOut": false,
+              "duration": 88571,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const chai = await import('chai');\nchai.should();\nlet driver = await createDriver();\n    \n// try {\n    await driver.get('https://dev.taxfree-coupon.hankyu-hanshin-dept.co.jp/');\n    await driver.manage().window().maximize();\n    \n    await driver.wait(until.elementLocated(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')), 5000);\n    await driver.findElement(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')).click();\n    \n    // Login with OTP Email\n    await driver.wait(until.elementLocated(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')), 10000);\n    await driver.wait(until.elementLocated(By.xpath('//input[@type=\"text\" and @id=\"otp-email\"]')), 5000);\n    await driver.findElement(By.xpath('//input[@type=\"text\" and @id=\"otp-email\"]')).sendKeys(credentials.USROTP_VIP_EXISTING);\n    await driver.findElement(By.xpath('//button[@type=\"submit\" and @id=\"otp-button\"]')).click();\n    await driver.sleep(3000)\n    // Switch new tab to get OTP code\n    let current_window = await driver.getWindowHandle();\n    await driver.switchTo().newWindow('tab');\n    let windows = await driver.getAllWindowHandles();\n    let tab;\n    windows.forEach(async handle =>{\n        if (handle!=current_window){\n            tab = handle;\n        }\n    });\n    await driver.get('https://mail.google.com/');\n    await driver.manage().window().maximize();\n    await driver.findElement(By.xpath('//input[@type=\"email\" and @name=\"identifier\"]')).sendKeys(credentials.USRGOOGLE);\n    await driver.sleep(1500);\n    await driver.findElement(By.xpath('//span[text()=\"Next\"]')).click();\n    await driver.sleep(5000);\n    await driver.wait(until.elementLocated(By.xpath('//input[@type=\"password\" and @name=\"Passwd\"]')), 1000);\n    await driver.findElement(By.xpath('//input[@type=\"password\" and @name=\"Passwd\"]')).sendKeys(credentials.PWDOTP);\n    await driver.sleep(1000);\n    await driver.findElement(By.xpath('//span[text()=\"Next\"]')).click();\n    await driver.sleep(5000);\n    await driver.wait(until.elementLocated(By.xpath('(//a[@title=\"Gmail\" and @href=\"#inbox\"])[2]')), 5000);\n    let topEmail = await driver.wait(until.elementLocated(By.css('tr.zA.zE')), 3000);\n    await topEmail.click();\n    let otpElement = await driver.findElement(By.xpath('(//p)[3]'));\n    let otpCode = await otpElement.getText();\n    //Back to login 3.0 page\n    await driver.getAllWindowHandles();\n    await driver.switchTo().window(current_window);\n    for (let i = 0; i < otpCode.length; i++) {\n        let inputElement = await driver.wait(until.elementLocated(By.id(`handleInput${i + 1}`)), 3000);\n        await inputElement.sendKeys(otpCode[i]);\n        await driver.sleep(1000);\n    };\n    await driver.sleep(1000);\n    await driver.findElement(By.xpath('//button[@type=\"submit\"]')).click();\n    await driver.sleep(20000);\n    // dashboard Hankyu Coupon\n    try {\n        let errorMessage = await driver.wait(until.elementLocated(By.xpath('//div[contains(text(),\"VIP members cannot obtain coupons.\")]')), 8000);\n        assert.strictEqual(await errorMessage.getText(), \"VIP members cannot obtain coupons.\");\n        console.log(\"Pesan error ditemukan sebelum redirect.\");\n    } catch (error) {\n        console.error(\"Pesan error tidak ditemukan atau halaman sudah di-redirect.\");\n    }\n\n    //await driver.wait(until.elementLocated(By.xpath('//div[contains(text(),\"VIP members cannot obtain coupons.\")]')), 8000);\n    await driver.sleep(1000);\n    await driver.quit();\n// } catch (error) {\n//     console.error('Error occurred during test execution:', error);\n//     throw new Error('Failed to login existing user with OTP');\n// }",
+              "err": {},
+              "uuid": "d4c97844-7fe5-4716-885c-8cda82e3f3eb",
+              "parentUUID": "f5b068e8-077b-4b2b-944d-3c4363fc9a93",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "03. Check if it’s possible to register on COUPON site after scanning a new VIP QR code, but without clicking \"New Member,\" then accessing the coupon site",
+              "fullTitle": "E2E UPBOND HANKYU COUPON DEV 03. Check if it’s possible to register on COUPON site after scanning a new VIP QR code, but without clicking \"New Member,\" then accessing the coupon site",
+              "timedOut": false,
+              "duration": 6875,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "const chai = await import('chai');\nchai.should();\nlet driver = await createDriver();\n    \n// try {\n    await driver.get('https://dev.vip.hankyu-hanshin-dept.co.jp/?member_no=714-1-075874&rank=silver&signature=d281605a542152d1214da979ec5ee5ea9091744c21ad3e7b1b88691003ea7436');\n    await driver.manage().window().maximize();\n    \n    await driver.wait(until.elementLocated(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')), 5000);\n    await driver.findElement(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')).click();\n    \n    // Login with OTP Email\n    await driver.wait(until.elementLocated(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')), 10000);\n    await driver.wait(until.elementLocated(By.xpath('//input[@type=\"text\" and @id=\"otp-email\"]')), 5000);\n    await driver.findElement(By.xpath('//input[@type=\"text\" and @id=\"otp-email\"]')).sendKeys(credentials.USROTP_COUPON_NEW);\n    await driver.findElement(By.xpath('//button[@type=\"submit\" and @id=\"otp-button\"]')).click();\n    await driver.sleep(3000)\n    // Switch new tab to get OTP code\n    let current_window = await driver.getWindowHandle();\n    await driver.switchTo().newWindow('tab');\n    let windows = await driver.getAllWindowHandles();\n    let tab;\n    windows.forEach(async handle =>{\n        if (handle!=current_window){\n            tab = handle;\n        }\n    });\n    await driver.get('https://mail.google.com/');\n    await driver.manage().window().maximize();\n    await driver.findElement(By.xpath('//input[@type=\"email\" and @name=\"identifier\"]')).sendKeys(credentials.USRGOOGLE);\n    await driver.sleep(1500);\n    await driver.findElement(By.xpath('//span[text()=\"Next\"]')).click();\n    await driver.sleep(5000);\n    await driver.wait(until.elementLocated(By.xpath('//input[@type=\"password\" and @name=\"Passwd\"]')), 1000);\n    await driver.findElement(By.xpath('//input[@type=\"password\" and @name=\"Passwd\"]')).sendKeys(credentials.PWDOTP);\n    await driver.sleep(1000);\n    await driver.findElement(By.xpath('//span[text()=\"Next\"]')).click();\n    await driver.sleep(5000);\n    await driver.wait(until.elementLocated(By.xpath('(//a[@title=\"Gmail\" and @href=\"#inbox\"])[2]')), 5000);\n    let topEmail = await driver.wait(until.elementLocated(By.css('tr.zA.zE')), 3000);\n    await topEmail.click();\n    let otpElement = await driver.findElement(By.xpath('(//p)[3]'));\n    let otpCode = await otpElement.getText();\n    //Back to login 3.0 page\n    await driver.getAllWindowHandles();\n    await driver.switchTo().window(current_window);\n    for (let i = 0; i < otpCode.length; i++) {\n        let inputElement = await driver.wait(until.elementLocated(By.id(`handleInput${i + 1}`)), 3000);\n        await inputElement.sendKeys(otpCode[i]);\n        await driver.sleep(1000);\n    };\n    await driver.sleep(1000);\n    await driver.findElement(By.xpath('//button[@type=\"submit\"]')).click();\n    await driver.sleep(20000);\n    // Check privacy policy agreement\n    await driver.sleep(2000);\n    let privacyPolicyCheckbox = await driver.wait(\n        until.elementLocated(By.xpath('//input[@id=\"privacy_policy_agreement\" and @type=\"checkbox\"]')), 5000);\n    await driver.sleep(2000);\n        await privacyPolicyCheckbox.click();\n    await driver.sleep(2000);\n    // click next\n    await driver.findElement(By.xpath('//button[@class=\"agree-consent mx-auto\"]')).click();\n    // homepage hankyu\n    await driver.sleep(1000);\n    await driver.wait(until.elementLocated(By.xpath('//div[@class=\"text-sm leading-5\" and contains(text(),\"Overseas Customer’s VIP Club Introduction to Services Offered\")]')), 5000);\n    await driver.wait(until.elementLocated(By.xpath('//div[text()=\"■ Member Privileges\"]')), 8000);\n    \n    await driver.sleep(1000);\n    await driver.quit();\n    // dashboard Hankyu Coupon\n    try {\n        let errorMessage = await driver.wait(until.elementLocated(By.xpath('//div[contains(text(),\"VIP members cannot obtain coupons.\")]')), 8000);\n        assert.strictEqual(await errorMessage.getText(), \"VIP members cannot obtain coupons.\");\n        console.log(\"Pesan error ditemukan sebelum redirect.\");\n    } catch (error) {\n        console.error(\"Pesan error tidak ditemukan atau halaman sudah di-redirect.\");\n    }\n\n    //await driver.wait(until.elementLocated(By.xpath('//div[contains(text(),\"VIP members cannot obtain coupons.\")]')), 8000);\n    await driver.sleep(1000);\n    await driver.quit();\n// } catch (error) {\n//     console.error('Error occurred during test execution:', error);\n//     throw new Error('Failed to login existing user with OTP');\n// }",
+              "err": {
+                "message": "TypeError: each key must be a number or string; got undefined",
+                "estack": "TypeError: each key must be a number or string; got undefined\n    at C:\\Users\\deast\\Work\\Upbond\\upbond_DJ\\e2e_hankyu_vip\\node_modules\\selenium-webdriver\\lib\\webdriver.js:2735:15\n    at Array.forEach (<anonymous>)\n    at WebElementPromise.sendKeys (C:\\Users\\deast\\Work\\Upbond\\upbond_DJ\\e2e_hankyu_vip\\node_modules\\selenium-webdriver\\lib\\webdriver.js:2730:32)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async Context.<anonymous> (coupon_existing_user.js:190:13)",
+                "diff": null
+              },
+              "uuid": "ae21b57a-3dca-4d24-a3d9-6ee5c6543a57",
+              "parentUUID": "f5b068e8-077b-4b2b-944d-3c4363fc9a93",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "628bd762-e0d7-45f7-a1c2-6443a2999151",
+            "d4c97844-7fe5-4716-885c-8cda82e3f3eb"
+          ],
+          "failures": [
+            "ae21b57a-3dca-4d24-a3d9-6ee5c6543a57"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 196511,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 200000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 0
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.8.2"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "C:/Users/deast/Work/Upbond/upbond_DJ/e2e_hankyu_vip/report_result/dev"
+      },
+      "version": "6.2.0"
+    }
+  }
+}
