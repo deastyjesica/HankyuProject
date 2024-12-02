@@ -1,0 +1,140 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-11-28T09:41:09.257Z",
+    "end": "2024-11-28T09:42:15.073Z",
+    "duration": 65816,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "de5cd133-5f8a-4a63-a9b5-fbb11d903480",
+      "title": "",
+      "fullFile": "C:\\Users\\deast\\Work\\Upbond\\upbond_DJ\\e2e_hankyu_vip\\test\\prod-env\\vip_existing_user.js",
+      "file": "\\vip_existing_user.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "6c98edc1-3ef4-4478-9cd5-47c534d506c1",
+          "title": "E2E UPBOND HANKYU VIP PROD",
+          "fullFile": "C:\\Users\\deast\\Work\\Upbond\\upbond_DJ\\e2e_hankyu_vip\\test\\prod-env\\vip_existing_user.js",
+          "file": "\\vip_existing_user.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"E2E UPBOND HANKYU VIP PROD\"",
+              "fullTitle": "E2E UPBOND HANKYU VIP PROD \"before all\" hook in \"E2E UPBOND HANKYU VIP PROD\"",
+              "timedOut": false,
+              "duration": 1158,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await createDriver();",
+              "err": {},
+              "uuid": "2dca9816-d39e-4b9e-9124-13eb4e23f3be",
+              "parentUUID": "6c98edc1-3ef4-4478-9cd5-47c534d506c1",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"E2E UPBOND HANKYU VIP PROD\"",
+              "fullTitle": "E2E UPBOND HANKYU VIP PROD \"after all\" hook in \"E2E UPBOND HANKYU VIP PROD\"",
+              "timedOut": false,
+              "duration": 83,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.quit();",
+              "err": {},
+              "uuid": "de72dce7-f966-4305-b362-f7ec11885e66",
+              "parentUUID": "6c98edc1-3ef4-4478-9cd5-47c534d506c1",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "01. Login Existing User & Check Dashboard",
+              "fullTitle": "E2E UPBOND HANKYU VIP PROD 01. Login Existing User & Check Dashboard",
+              "timedOut": false,
+              "duration": 64568,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const chai = await import('chai');\nchai.should();\nlet driver = await createDriver();\n    \n// try {\n    await driver.get('https://vip.hankyu-hanshin-dept.co.jp/');\n    await driver.manage().window().maximize();\n    \n    //await driver.wait(until.elementLocated(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"Login with Email\")]')), 5000);\n    await driver.wait(until.elementLocated(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')), 5000);\n    await driver.findElement(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')).click();\n    \n    // Login with OTP Email\n    await driver.wait(until.elementLocated(By.xpath('//span[@id=\"otp-btn\" and contains(text(),\"メールアドレスでログイン\")]')), 10000);\n    await driver.wait(until.elementLocated(By.xpath('//input[@type=\"text\" and @id=\"otp-email\"]')), 5000);\n    await driver.findElement(By.xpath('//input[@type=\"text\" and @id=\"otp-email\"]')).sendKeys(credentials.USROTP_VIP_EXISTING);\n    await driver.findElement(By.xpath('//button[@type=\"submit\" and @id=\"otp-button\"]')).click();\n    await driver.sleep(3000)\n    // Switch new tab to get OTP code\n    let current_window = await driver.getWindowHandle();\n    await driver.switchTo().newWindow('tab');\n    let windows = await driver.getAllWindowHandles();\n    let tab;\n    windows.forEach(async handle =>{\n        if (handle!=current_window){\n            tab = handle;\n        }\n    });\n    await driver.get('https://mail.google.com/');\n    await driver.manage().window().maximize();\n    await driver.findElement(By.xpath('//input[@type=\"email\" and @name=\"identifier\"]')).sendKeys(credentials.USRGOOGLE);\n    await driver.sleep(1500);\n    await driver.findElement(By.xpath('//span[text()=\"Next\"]')).click();\n    await driver.sleep(5000);\n    await driver.wait(until.elementLocated(By.xpath('//input[@type=\"password\" and @name=\"Passwd\"]')), 1000);\n    await driver.findElement(By.xpath('//input[@type=\"password\" and @name=\"Passwd\"]')).sendKeys(credentials.PWDOTP);\n    await driver.sleep(1000);\n    await driver.findElement(By.xpath('//span[text()=\"Next\"]')).click();\n    await driver.sleep(5000);\n    await driver.wait(until.elementLocated(By.xpath('(//a[@title=\"Gmail\" and @href=\"#inbox\"])[2]')), 5000);\n    let topEmail = await driver.wait(until.elementLocated(By.css('tr.zA.zE')), 3000);\n    await topEmail.click();\n    let otpElement = await driver.findElement(By.xpath('(//p)[3]'));\n    let otpCode = await otpElement.getText();\n    //Back to login 3.0 page\n    await driver.getAllWindowHandles();\n    await driver.switchTo().window(current_window);\n    for (let i = 0; i < otpCode.length; i++) {\n        let inputElement = await driver.wait(until.elementLocated(By.id(`handleInput${i + 1}`)), 3000);\n        await inputElement.sendKeys(otpCode[i]);\n        await driver.sleep(1000);\n    };\n    await driver.sleep(1000);\n    await driver.findElement(By.xpath('//button[@type=\"submit\"]')).click();\n    await driver.sleep(20000);\n    // Home page Hankyu VIP\n    await driver.wait(until.elementLocated(By.xpath('//div[text()=\"■ Member Privileges\"]')), 8000);\n    await driver.sleep(500);\n    await driver.quit();\n// } catch (error) {\n//     console.error('Error occurred during test execution:', error);\n//     throw new Error('Failed to login existing user with OTP');\n// }",
+              "err": {},
+              "uuid": "97ad2a1c-67f8-464b-b343-ba8ad075634e",
+              "parentUUID": "6c98edc1-3ef4-4478-9cd5-47c534d506c1",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "97ad2a1c-67f8-464b-b343-ba8ad075634e"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 64568,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 200000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 0
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.8.2"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "C:/Users/deast/Work/Upbond/upbond_DJ/e2e_hankyu_vip/report_result/prod"
+      },
+      "version": "6.2.0"
+    }
+  }
+}
